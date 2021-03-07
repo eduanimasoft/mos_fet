@@ -27,19 +27,19 @@ body
 
 .start_anim_button
 {
-	width: 20vw;
+	width: 400px;
 	height: 10vh;
-	margin-left: -15vw;
+	margin-left: -320px;
 	text-align: center;
 	font-size: 20pt;
 	background-color: lightblue;
-	transition: 1s;
+	border-radius: 20px;
+	transition: 1.5s;
 }
 
 .start_anim_button:hover
 {
-	width: 25vw;
-	margin-left: 0;
+	margin-left: -20px; /* value of border radius to hide round edges */
 	box-shadow:
 		0 2.8px 2.2px rgba(0, 0, 0, 0.034),
 		0 6.7px 5.3px rgba(0, 0, 0, 0.048),
@@ -49,7 +49,7 @@ body
 		0 100px 80px rgba(0, 0, 0, 0.12);
 	background-color: lightgreen;
 	cursor: pointer;
-	/* line-height: 30vh; */
+	transition: 0.5s;
 }
 
 .start_anim_button:hover table tr td .text
@@ -59,7 +59,7 @@ body
 
 .start_anim_button table tr td img
 {
-	height: 8vh;
+	width: 70px;
 	margin-right: 0.5vw;
 }
 
@@ -89,4 +89,20 @@ body
 	padding-top: 20px;
 	font-size: 30pt;
 	transition: 500ms;
+}
+
+table, tr, td
+{
+	padding: 0;
+	margin: 0;	
+}
+
+.logo
+{
+	background-color: #8EE4AF;
+	height: 100%;
+	width: 100%;
+	font-size: 40px;
+	margin: auto;
+	padding: 20px;
 }

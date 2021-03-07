@@ -2,41 +2,36 @@ var active_canvas_id = 'home';
 
 var canvases = 
 {
-	0: 'home',
-	1: 'main_canvas',
-	2: 'canvas_screen1',
-	3: 'canvas_screen2',
-	4: 'canvas_screen3',
-	5: 'canvas_screen4',
-	6: 'canvas_screen5'
+	0: 'main_canvas',
+	1: 'canvas_screen1',
+	2: 'canvas_screen2',
+	3: 'canvas_screen3',
+	4: 'canvas_screen4',
+	5: 'canvas_screen5'
 }
 
-$('#btn_open_home').click(function() {
+$('#btn_open_intro').click(function() {
 	switch_canvas(canvases[0]);
 });
 
-$('#btn_open_intro').click(function() {
+$('#btn_open_screen1').click(function() {
 	switch_canvas(canvases[1]);
 });
 
-$('#btn_open_screen1').click(function() {
+$('#btn_open_screen2').click(function() {
 	switch_canvas(canvases[2]);
 });
 
-$('#btn_open_screen2').click(function() {
+$('#btn_open_screen3').click(function() {
 	switch_canvas(canvases[3]);
 });
 
-$('#btn_open_screen3').click(function() {
+$('#btn_open_screen4').click(function() {
 	switch_canvas(canvases[4]);
 });
 
-$('#btn_open_screen4').click(function() {
-	switch_canvas(canvases[5]);
-});
-
 $('#btn_open_screen5').click(function() {
-	switch_canvas(canvases[6]);
+	switch_canvas(canvases[5]);
 });
 
 function switch_canvas(new_canvas_id)
