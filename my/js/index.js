@@ -1,7 +1,6 @@
-var active_canvas_id = 'home';
+var active_canvas_id = 'main_canvas';
 
-var canvases = 
-{
+var canvases = {
 	0: 'main_canvas',
 	1: 'canvas_screen1',
 	2: 'canvas_screen2',
@@ -78,6 +77,5 @@ function switch_canvas(new_canvas_id)
 	}
 	
 	document.getElementById(new_canvas_id).style.display = "block";
-	
 	active_canvas_id = new_canvas_id;
 }
