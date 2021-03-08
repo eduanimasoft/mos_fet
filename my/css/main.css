@@ -14,6 +14,14 @@
 	
 	--content-height: 90vh;
 	--content-width: 93vw;
+	
+	--home-content-item-width: 200px;
+	--home-content-item-height: 200px;
+	--home-content-item-width-hover: 250px;
+	--home-content-item-height-hover: 250px;
+	
+	--home-content-item-detail-width-hover: 450px;
+	--home-content-item-detail-height-hover: 450px;
 }
 
 * 
@@ -21,17 +29,23 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: bold;
 }
 
 body
 {
 	width: 100vw;
 	height: 100vh;
-	overflow: hidden;
+	overflow-x: hidden;
 }
 
 .header
 {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 200;
 	background-color: var(--left-bar-bg-color);
 	height: var(--header-height);
 	width: 100%;
@@ -39,9 +53,7 @@ body
 
 .title
 {
-	font-family: 'Montserrat', sans-serif;
 	font-size: 40pt;
-	font-weight: bold;
 	line-height: 10vh; /* Using this to align text vertically */
 	margin-left: 20px;
 }
