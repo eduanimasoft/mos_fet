@@ -73,8 +73,11 @@ function particle(x, y) {
 
 function draw() {
     requestAnimFrame(draw);
+	
+	c.width = window.innerWidth;
+	c.height = window.innerHeight;
 
-    ctx.fillStyle = 'rgb(255, 255, 255)';
+    ctx.fillStyle = '#F4FED1';
     ctx.fillRect(0, 0, c.width, c.height);
 
     for (t = 0; t < particles.length; t++) {

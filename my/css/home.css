@@ -1,4 +1,11 @@
 /* For HOME page */
+a
+{
+	text-decoration: none;
+	outline: none;
+	color: black;
+}
+
 .home_content
 {
 	padding-bottom: 50px;
@@ -6,7 +13,7 @@
 	border: 5px solid black;
 	border-radius: 50px;
 	
-	background-color: white;
+	background-color: #e6eff6;
 }
 
 .home_content_item
@@ -44,7 +51,7 @@
 {
 	width: var(--home-content-item-width);
 	height: var(--home-content-item-height);
-	background-color: white;
+	background-color: #f1d3a1;
 	
 	position: absolute;
 	left: 0px;

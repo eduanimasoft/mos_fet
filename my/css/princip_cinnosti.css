@@ -1,0 +1,24 @@
+.scheme
+{
+	width: 100%;
+	height: 100%;
+	background-color: yellow;
+}
+
+.controllers
+{
+	width: 100%;
+	height: 100%;
+	background-color: white;
+	
+	border: 1px solid black;
+	border-radius: 20px;
+	
+	padding: 20px;
+}
+
+.controllers_title
+{
+	font-size: 25pt;
+	font-weight: bold;
+}

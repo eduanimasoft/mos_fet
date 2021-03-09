@@ -3,10 +3,15 @@
 	<head>
 		<title>MOS-FET</title>
 		<link href="css/main.css" rel="stylesheet" />
+		<link href="css/princip_cinnosti.css" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>		
 	</head>
 	<body>
+			<!-- Background canvas -->
+			<canvas id="background_canvas" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
+			<script src="js/home_background_canvas.js"></script>
+			
 			<!-- HEADER -->
 			<div class="header">
 				<a href="home.html" style="text-decoration: none; outline: none;">
@@ -85,7 +90,7 @@
 			</div>
 				
 			<!-- ↓↓↓↓↓ main content ↓↓↓↓↓ -->
-			<div class="content">
+			<div class="content" align="center">
 				<canvas id='main_canvas' style="display: block;" class="canvas canvas_intro animate__animated animate__fadeInUp" align=center></canvas> 
 				
 				<br />
@@ -100,12 +105,63 @@
 				
 				<br />
 				
-				<div 
-					id='canvas_screen2' 
-					align=center
-					class="canvas animate__animated animate__fadeInUp" 
-					style="display: none;">
-					<img src="images/canvas_screen2/mosfet_scheme.svg" width=80% />
+				<div id='princip_cinnosti' align=center class="canvas animate__animated animate__fadeInUp" style="display: none;">
+					<table cellspacing=0 width=100% height=100% border=0>
+						<tr>
+							<td valign="top">
+								<div class="scheme" id="princip_cinnosti_parent" style="height: 100%;">
+									<canvas id="canvas_princip_cinnosti" style="width: 100%; height: 100%;"></canvas>
+								</div>
+							</td>
+							<td width="30%">
+								<div class="controllers" align="center">
+									<div class="controllers_title">Princip činnosti</div>
+									<div style="margin-top: 10px; margin-bottom: 10px; height: 10px; background-color: black;"></div>
+									<table style="font-size: 20pt;" cellspacing="20px">
+										<!-- rezim -->
+										<tr align="center">
+											<td width="50%">Obohacovací režim</td>
+											<td>Ochudobnovací režim</td>
+										</tr>
+										<tr align="center">
+											<td width="50%">
+												<input type="radio" name="oboh_rezim" checked=true style="width: 30px; height: 30px;" />
+											</td>
+											<td>
+												<input type="radio" name="oboh_rezim" style="width: 30px; height: 30px;" />
+											</td>
+										</tr>
+										
+										<!-- nmos / pmos -->
+										<tr align="center">
+											<td width="50%">NMOS</td>
+											<td>PMOS</td>
+										</tr>
+										<tr align="center">
+											<td width="50%">
+												<input type="radio" name="mos" checked=true style="width: 30px; height: 30px;" />
+											</td>
+											<td>
+												<input type="radio" name="mos" style="width: 30px; height: 30px;" />
+											</td>
+										</tr>
+										
+										<!-- uds / ugs -->
+										<tr align="center"> <td width="50%"> UGS </td> <td> UDS </td> </tr>
+										<tr align="center"> <td width="50%"> <span id="ugs_value">0</span> </td> <td> <span id="uds_value">0</span>  </td> </tr>
+										<tr align="center">
+											<td width="50%">
+												<input type="range" id="ugs_range" name="ugs" min=0 max=3 step=1 value=0 oninput="(function(){document.getElementById('ugs_value').innerText = document.getElementById('ugs_range').value;})()" />
+											</td>
+											<td>
+												<input type="range" id="uds_range" name="uds" min=0 max=3 step=1 value=0 oninput="(function(){document.getElementById('uds_value').innerText = document.getElementById('uds_range').value;})()" />
+											</td>
+										</tr>
+									</table>
+								</div>
+							</td>
+						</tr>
+					</table>
 				</div> 
 				
 				<br />
@@ -126,8 +182,10 @@
 					<!-- <img src="images/intro/canvas_screen5.png" width=80% /> -->
 				</div> <br />
 			</div>
+			
 		<script src="js/animation_engine.js"></script>
-		<script src="js/intro.js"></script>
+
+		<script src="js/princip_cinnosti.js"></script>
 	</body>
 </html>
 
