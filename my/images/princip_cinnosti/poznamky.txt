@@ -1,0 +1,4 @@
+background - png image - static
+transistor - png image - static
+
+channels - png images - size = transistor.size - non static

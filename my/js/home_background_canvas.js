@@ -93,9 +93,11 @@ function draw() {
 
         dist = Math.sqrt(dx * dx + dy * dy);
 
+		var speed = 1.7;
+
         if (dist <= 300) {
-            p.x += dx / dist * 1.6;
-            p.y += dy / dist * 1.6;
+            p.x += dx / dist * speed;
+            p.y += dy / dist * speed;
         }
 
 		// return circles

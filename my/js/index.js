@@ -65,6 +65,10 @@ function switch_canvas(new_canvas_id)
 	
 	document.getElementById(new_canvas_id).style.display = "block";
 	active_canvas_id = new_canvas_id;
+	
+	if (active_canvas_id == 'main_canvas'){
+		StartAnimation();
+	}
 }
 
 function findGetParameter(parameterName) {

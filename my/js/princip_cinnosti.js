@@ -138,10 +138,27 @@ function drawCircle()
 	mainContext.drawImage(background_scheme, 0, 0, getWidthPixelInPercent(80), getHeightPixelInPercent(50));
 	mainContext.closePath();
 	
+	var transistor_width = 55;
+	var transistor_height = 30;
+	var transistor_x = 35;
+	var transistor_y = 12;
+	
 	// draw a transistor
 	var transistor = new Image(); transistor.src = 'images/princip_cinnosti/transistor.png';
 	mainContext.beginPath();
-	mainContext.drawImage(transistor, getWidthPixelInPercent(35), getHeightPixelInPercent(12), getWidthPixelInPercent(55), getHeightPixelInPercent(30));
+	mainContext.drawImage(transistor, getWidthPixelInPercent(transistor_x), getHeightPixelInPercent(transistor_y), getWidthPixelInPercent(transistor_width), getHeightPixelInPercent(transistor_height));
+	mainContext.closePath();
+	
+	// draw a channel
+	var channel = new Image(); channel.src = 'images/princip_cinnosti/channels/0 - 2.png';
+	mainContext.beginPath();
+	mainContext.drawImage(channel, getWidthPixelInPercent(transistor_x), getHeightPixelInPercent(transistor_y), getWidthPixelInPercent(transistor_width), getHeightPixelInPercent(transistor_height));
+	mainContext.closePath();
+	
+	// draw a nmos/pmos
+	var mos = new Image(); mos.src = 'images/princip_cinnosti/channel_basics/nmos.png';
+	mainContext.beginPath();
+	mainContext.drawImage(mos, getWidthPixelInPercent(transistor_x), getHeightPixelInPercent(transistor_y), getWidthPixelInPercent(transistor_width), getHeightPixelInPercent(transistor_height));
 	mainContext.closePath();
 	
 	// draw a left graph
