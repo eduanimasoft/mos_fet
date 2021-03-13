@@ -6,24 +6,23 @@ var requestAnimationFrame = window.requestAnimationFrame ||
                             window.webkitRequestAnimationFrame || 
                             window.msRequestAnimationFrame;
 							
-var speed = 0.3;
+var speed = 0.1;
 var radius = 0.5; // 5%
 var rows = 2;
 
 var startX = 55;
-var endX = 70;
+var endX = 71;
 
-var firstRowY = 18;
-var secondRowY = firstRowY + radius * 2 + 1;
-var thirdRowY = secondRowY + radius * 2 + 1;
-var fourthRowY = thirdRowY + radius * 2 + 1;
+var firstRowY = 16;
+var secondRowY = firstRowY + radius * 2 + 0.5;
+var thirdRowY = secondRowY + radius * 2 + 0.5;
 
-var distanceOriginal = 2 + radius * 2; // distance from last circle
+var distanceOriginal = 1 + radius * 2; // distance from last circle
 var distance = distanceOriginal; // distance from last circle
 var maxX = distance + startX; // 20%
 
-var startSmoothMovementX = 60;
-var endSmoothMovementX = 80;
+var startSmoothMovementX = 55;
+var endSmoothMovementX = 60;
 
 var startFastMovementX = 100;
 
@@ -47,58 +46,61 @@ class Circle
 			case 2:
 				newY = thirdRowY;
 				break;
-			case 3:
-				newY = fourthRowY;
-				break;
 		}
 		this.y = newY;
 		
 		this.startY = this.y;
 		this.rowNumber = row;
 		
-		this.startSmoothMovementX = startSmoothMovementX + ((endSmoothMovementX - startSmoothMovementX) / rows * (rows - this.rowNumber));
-		this.endSmoothMovementX = endSmoothMovementX - distance * row;
+		this.startSmoothMovementX = startSmoothMovementX;
+		this.endSmoothMovementX = endSmoothMovementX;
+		if (this.rowNumber == 1){
+			this.startSmoothMovementX = (endSmoothMovementX - startSmoothMovementX) / 2 + startSmoothMovementX + distance;
+			this.endSmoothMovementX = endSmoothMovementX + distance;
+		}
 		
-		if (circles.length == 0)
-		{
+		// console.log(`row: ${this.rowNumber}, start: ${this.startSmoothMovementX}, end: ${this.endSmoothMovementX}`);
+		
+		if (circles.length == 0){
 			this.index = 1;
 		}
-		else
-		{
+		else {
 			this.index = circles[circles.length - 1].index + 1;
 		}
 	}
 }
 
 function moveCircles()
-{
-	if (circles.length == 0)
-	{
+{	
+	var ugs_value = parseInt(document.getElementById('ugs_value').value);
+	var uds_value = parseInt(document.getElementById('uds_value').value);
+	
+	rows = ugs_value;
+
+	if (circles.length == 0 && rows != 0){
 		circles.push(new Circle(0));
 	}
 	
-	// если х координата последнего кружка больше 20% ширины экрана
-	if (circles[circles.length - 1].x > maxX)
-	{
+	if (circles.length == 0){
+		return;
+	}
+	
+	if (circles[circles.length - 1].x > maxX && rows != 0){
 		var row = circles[circles.length - 1].index % rows;
 		circles.push(new Circle(row));
 	}
 	
-	for (var i = 0; i < circles.length; i++)
-	{
-		if (circles[i].x > startFastMovementX) // change to 60
-		{
+	for (var i = 0; i < circles.length; i++){
+		if (circles[i].x > startFastMovementX){ // change to 60
 			circles[i].x = circles[i].x + 3 * speed;
 		}
-		else
-		{
+		else{
 			circles[i].x = circles[i].x + 1 * speed;
 		}
 		
 		var x = circles[i].startSmoothMovementX;
 		var x1 = circles[i].endSmoothMovementX;
-		if (circles[i].row != 0 && circles[i].x > x && circles[i].x <= x1)
-		{
+		if (circles[i].row != 0 && circles[i].x > x && circles[i].x <= x1){
 			var distanceX = x1 - x;
 			var miniDistanceX = circles[i].x - x;
 			
@@ -112,14 +114,12 @@ function moveCircles()
 		}
 	}
 	
-	if (circles[0].x > endX)
-	{
+	if (circles[0].x > endX){
 		circles.shift();
 	}
 }
 
-function drawCircle() 
-{
+function drawCircle() {
 	mainCanvas.width = document.getElementById("princip_cinnosti_parent").offsetWidth;
 	mainCanvas.height = document.getElementById("princip_cinnosti_parent").offsetHeight;
 	
@@ -132,47 +132,86 @@ function drawCircle()
     mainContext.fillStyle = "white";
     mainContext.fillRect(0, 0, canvasWidth, canvasHeight);
 	
-	// draw a background
-	var background_scheme = new Image(); background_scheme.src = 'images/princip_cinnosti/background_scheme.png';
-	mainContext.beginPath();
-	mainContext.drawImage(background_scheme, 0, 0, getWidthPixelInPercent(80), getHeightPixelInPercent(50));
-	mainContext.closePath();
+	draw_transistor_background();
 	
 	var transistor_width = 55;
 	var transistor_height = 30;
 	var transistor_x = 35;
 	var transistor_y = 12;
 	
+	draw_transistor(transistor_x, transistor_y, transistor_width, transistor_height);
+	draw_channel(transistor_x, transistor_y, transistor_width, transistor_height);
+	draw_nmos_pmos(transistor_x, transistor_y, transistor_width, transistor_height);
+	draw_left_graph();
+	draw_right_graph();
+	
+	draw_electrons();
+	
+	requestAnimationFrame(drawCircle);
+}
+
+// ----------------------- Drawing functions
+
+function draw_transistor_background(){
+	
+	// draw a background
+	var background_scheme = new Image(); background_scheme.src = 'images/princip_cinnosti/background_scheme.png';
+	mainContext.beginPath();
+	mainContext.drawImage(background_scheme, 0, 0, getWidthPixelInPercent(80), getHeightPixelInPercent(50));
+	mainContext.closePath();
+}
+
+function draw_transistor(transistor_x, transistor_y, transistor_width, transistor_height){
+	
 	// draw a transistor
 	var transistor = new Image(); transistor.src = 'images/princip_cinnosti/transistor.png';
 	mainContext.beginPath();
 	mainContext.drawImage(transistor, getWidthPixelInPercent(transistor_x), getHeightPixelInPercent(transistor_y), getWidthPixelInPercent(transistor_width), getHeightPixelInPercent(transistor_height));
 	mainContext.closePath();
+}
+
+function draw_channel(transistor_x, transistor_y, transistor_width, transistor_height){
 	
+	var ugs_value = parseInt(document.getElementById('ugs_value').value);
+	var uds_value = parseInt(document.getElementById('uds_value').value);
+
 	// draw a channel
-	var channel = new Image(); channel.src = 'images/princip_cinnosti/channels/0 - 2.png';
+	var channel = new Image(); 
+	channel.src = `images/princip_cinnosti/channels/${ugs_value} - ${uds_value}.png`;
+	
 	mainContext.beginPath();
 	mainContext.drawImage(channel, getWidthPixelInPercent(transistor_x), getHeightPixelInPercent(transistor_y), getWidthPixelInPercent(transistor_width), getHeightPixelInPercent(transistor_height));
 	mainContext.closePath();
+}
+
+function draw_nmos_pmos(transistor_x, transistor_y, transistor_width, transistor_height){
 	
 	// draw a nmos/pmos
 	var mos = new Image(); mos.src = 'images/princip_cinnosti/channel_basics/nmos.png';
 	mainContext.beginPath();
 	mainContext.drawImage(mos, getWidthPixelInPercent(transistor_x), getHeightPixelInPercent(transistor_y), getWidthPixelInPercent(transistor_width), getHeightPixelInPercent(transistor_height));
 	mainContext.closePath();
+}
+
+function draw_left_graph(){
 	
 	// draw a left graph
 	var left_graph = new Image(); left_graph.src = 'images/princip_cinnosti/lavy_graf.png';
 	mainContext.beginPath();
 	mainContext.drawImage(left_graph, getWidthPixelInPercent(0), getHeightPixelInPercent(50), getWidthPixelInPercent(50), getHeightPixelInPercent(50));
 	mainContext.closePath();
+}
+
+function draw_right_graph(){
 	
 	// draw a right graph
 	var right_graf = new Image(); right_graf.src = 'images/princip_cinnosti/pravy_graf.png';
 	mainContext.beginPath();
 	mainContext.drawImage(right_graf, getWidthPixelInPercent(50), getHeightPixelInPercent(50), getWidthPixelInPercent(50), getHeightPixelInPercent(50));
 	mainContext.closePath();
-	
+}
+
+function draw_electrons(){
 	moveCircles();
 	for (var i = 0; i < circles.length; i++){
 		mainContext.beginPath();
@@ -190,9 +229,9 @@ function drawCircle()
 		
 		mainContext.closePath();
 	}
-	
-	requestAnimationFrame(drawCircle);
 }
+
+// ----------------------- Utils
 
 function getWidthPixelInPercent(percent)
 {

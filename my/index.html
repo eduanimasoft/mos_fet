@@ -148,13 +148,13 @@
 										
 										<!-- uds / ugs -->
 										<tr align="center"> <td width="50%"> UGS </td> <td> UDS </td> </tr>
-										<tr align="center"> <td width="50%"> <span id="ugs_value">0</span> </td> <td> <span id="uds_value">1</span>  </td> </tr>
+										<tr align="center"> <td width="50%"> <span id="ugs_value_text">0</span> </td> <td> <span id="uds_value_text">1</span>  </td> </tr>
 										<tr align="center">
 											<td width="50%">
-												<input type="range" id="ugs_range" name="ugs" min=0 max=3 step=1 value=0 oninput="(function(){document.getElementById('ugs_value').innerText = document.getElementById('ugs_range').value;})()" />
+												<input type="range" id="ugs_value" name="ugs" min=0 max=3 step=1 value=0 oninput="(function(){document.getElementById('ugs_value_text').innerText = document.getElementById('ugs_value').value;})()" />
 											</td>
 											<td>
-												<input type="range" id="uds_range" name="uds" min=1 max=5 step=1 value=1 oninput="(function(){document.getElementById('uds_value').innerText = document.getElementById('uds_range').value;})()" />
+												<input type="range" id="uds_value" name="uds" min=1 max=5 step=1 value=1 oninput="(function(){document.getElementById('uds_value_text').innerText = document.getElementById('uds_value').value;})()" />
 											</td>
 										</tr>
 									</table>
