@@ -1,153 +1,129 @@
 var mainCanvas = document.querySelector("#canvas_princip_cinnosti");
 var mainContext = mainCanvas.getContext("2d");
- 
-var requestAnimationFrame = window.requestAnimationFrame || 
-                            window.mozRequestAnimationFrame || 
-                            window.webkitRequestAnimationFrame || 
-                            window.msRequestAnimationFrame;
+var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+var canvas_objects = [];
+mainCanvas.onmousemove = on_canvas_hover;
 							
-var speed = 0.1;
-var radius = 0.5; // 5%
-var rows = 2;
+// ------------- Electrons parameters (all the values are percents towards transisot width)
 
-var startX = 55;
-var endX = 71;
+var electrons_moving_speed = 0.1;
+var electrons_radius       = 0.5; 
+var electrons_rows_number  = 2;
 
-var firstRowY = 16;
-var secondRowY = firstRowY + radius * 2 + 0.5;
-var thirdRowY = secondRowY + radius * 2 + 0.5;
+var electrons_start_positions_x = 35;
+var electrons_end_positions_x   = 65;
 
-var distanceOriginal = 1 + radius * 2; // distance from last circle
-var distance = distanceOriginal; // distance from last circle
-var maxX = distance + startX; // 20%
+var electrons_start_going_up_position_x = 100;
+var electrons_end_going_up_position_x   = 100;
 
-var startSmoothMovementX = 55;
-var endSmoothMovementX = 60;
+var electrons_first_row_position_y = 15;
+var distance_between_electrons     = 0.8 + electrons_radius * 2; // distance_between_electrons from last Electron
 
-var startFastMovementX = 100;
+// ------------- / Electrons parametes
 
-var circles = [];
-class Circle
-{
-	constructor(row) 
-	{
-		// x, y - in percents
-		this.x = startX;
-				
-		var newY = 0;
-		switch (row)
-		{
-			case 0:
-				newY = firstRowY;
-				break;
-			case 1:
-				newY = secondRowY;
-				break;
-			case 2:
-				newY = thirdRowY;
-				break;
-		}
-		this.y = newY;
+// ------------- Transistor parameters
+	
+var transistor_width  = 55;
+var transistor_height = 30;
+var transistor_x      = 35;
+var transistor_y      = 15;
+
+// ------------- / Transistor parameters
+
+var electrons_array = [];
+class Electron {
+	constructor(row_number) {
+		this.x_end           = getPercentTowardsCanvasFromPercentTowardsTransistor(electrons_end_positions_x);
+		this.x_start         = getPercentTowardsCanvasFromPercentTowardsTransistor(electrons_start_positions_x);
+		this.x               = this.x_start;
 		
-		this.startY = this.y;
-		this.rowNumber = row;
+		this.row_number      = row_number;
+
+		var uds_value = document.getElementById('uds_value').value;
+		electrons_start_going_up_position_x = uds_value == 4 ? 40 : uds_value == 5 ? 35 : 100;
+		electrons_end_going_up_position_x   = uds_value == 4 ? 57 : uds_value == 5 ? 40 : 100;
 		
-		this.startSmoothMovementX = startSmoothMovementX;
-		this.endSmoothMovementX = endSmoothMovementX;
-		if (this.rowNumber == 1){
-			this.startSmoothMovementX = (endSmoothMovementX - startSmoothMovementX) / 2 + startSmoothMovementX + distance;
-			this.endSmoothMovementX = endSmoothMovementX + distance;
-		}
+		this.x_up_start      = getPercentTowardsCanvasFromPercentTowardsTransistor((electrons_rows_number - (this.row_number + 1)) * (electrons_end_going_up_position_x - electrons_start_going_up_position_x) / (electrons_rows_number - 1) + electrons_start_going_up_position_x) + distance_between_electrons * (electrons_rows_number - this.row_number);
+		this.x_up_end        = getPercentTowardsCanvasFromPercentTowardsTransistor(electrons_end_going_up_position_x) + distance_between_electrons * (electrons_rows_number - this.row_number);
 		
-		// console.log(`row: ${this.rowNumber}, start: ${this.startSmoothMovementX}, end: ${this.endSmoothMovementX}`);
+		this.y       = getPercentTowardsCanvasFromPercentTowardsTransistor(electrons_first_row_position_y + 3 * row_number, false);
+		this.y_start = this.y;
 		
-		if (circles.length == 0){
-			this.index = 1;
-		}
-		else {
-			this.index = circles[circles.length - 1].index + 1;
-		}
+		this.index = electrons_array.length == 0 ? 1 : (electrons_array[electrons_array.length - 1].index + 1);
 	}
 }
 
-function moveCircles()
-{	
+function move_electrons(){	
 	var ugs_value = parseInt(document.getElementById('ugs_value').value);
 	var uds_value = parseInt(document.getElementById('uds_value').value);
 	
-	rows = ugs_value;
+	var ugs_max = parseInt(document.getElementById('ugs_value').max);
+	
+	electrons_rows_number = ugs_value;
 
-	if (circles.length == 0 && rows != 0){
-		circles.push(new Circle(0));
-	}
+	if (electrons_array.length == 0 && electrons_rows_number != 0 && uds_value != 1)
+		electrons_array.push(new Electron(0));
 	
-	if (circles.length == 0){
+	if (electrons_array.length == 0)
 		return;
+	
+	if (electrons_array[electrons_array.length - 1].x > (distance_between_electrons * ugs_max / electrons_rows_number + electrons_array[electrons_array.length - 1].x_start) && electrons_rows_number != 0 && uds_value != 1){
+		var row = electrons_array[electrons_array.length - 1].index % electrons_rows_number;
+		electrons_array.push(new Electron(row));
 	}
 	
-	if (circles[circles.length - 1].x > maxX && rows != 0){
-		var row = circles[circles.length - 1].index % rows;
-		circles.push(new Circle(row));
-	}
+	var x_speedup_start = getPercentTowardsCanvasFromPercentTowardsTransistor(uds_value == 4 ? 60 : uds_value == 5 ? 45 : 100);
+	distance_between_electrons = (uds_value > 2 ? 0.3 : 1) + electrons_radius * 2;
 	
-	for (var i = 0; i < circles.length; i++){
-		if (circles[i].x > startFastMovementX){ // change to 60
-			circles[i].x = circles[i].x + 3 * speed;
-		}
-		else{
-			circles[i].x = circles[i].x + 1 * speed;
-		}
+	for (var i = 0; i < electrons_array.length; i++){
+		if (electrons_array[i].x > x_speedup_start)
+			electrons_array[i].x = electrons_array[i].x + 4 * electrons_moving_speed * (uds_value > 2 ? 1.5 : 1);
+		else
+			electrons_array[i].x = electrons_array[i].x + electrons_moving_speed * (uds_value > 2 ? 1.5 : 1);
 		
-		var x = circles[i].startSmoothMovementX;
-		var x1 = circles[i].endSmoothMovementX;
-		if (circles[i].row != 0 && circles[i].x > x && circles[i].x <= x1){
-			var distanceX = x1 - x;
-			var miniDistanceX = circles[i].x - x;
+		// going up
+		var x = electrons_array[i].x_up_start;
+		var x1 = electrons_array[i].x_up_end;
+		if (electrons_array[i].row != 0 && electrons_array[i].x > x && electrons_array[i].x <= x1){
+			var distance_between_electronsX = x1 - x;
+			var minidistance_between_electronsX = electrons_array[i].x - x;
 			
-			var miniPercentDistanceX = (miniDistanceX * 100) / distanceX;
-			var miniPercentDistanceY = miniPercentDistanceX;
+			var miniPercentdistance_between_electronsX = (minidistance_between_electronsX * 100) / distance_between_electronsX;
+			var miniPercentdistance_between_electronsY = miniPercentdistance_between_electronsX;
 			
-			var distanceY = circles[i].startY - firstRowY;
-			var miniDistanceY = (miniPercentDistanceY * distanceY) / 100;
+			var distance_between_electronsY = electrons_array[i].y_start - getPercentTowardsCanvasFromPercentTowardsTransistor(electrons_first_row_position_y, false);
+			var minidistance_between_electronsY = (miniPercentdistance_between_electronsY * distance_between_electronsY) / 100;
 			
-			circles[i].y = circles[i].startY - miniDistanceY;
+			electrons_array[i].y = electrons_array[i].y_start - minidistance_between_electronsY;
 		}
 	}
 	
-	if (circles[0].x > endX){
-		circles.shift();
-	}
+	if (electrons_array[0].x > electrons_array[0].x_end)
+		electrons_array.shift();
 }
 
-function drawCircle() {
+function draw_princip_cinnosti() {
 	mainCanvas.width = document.getElementById("princip_cinnosti_parent").offsetWidth;
 	mainCanvas.height = document.getElementById("princip_cinnosti_parent").offsetHeight;
 	
-	var canvasWidth = mainCanvas.width;
-	var canvasHeight = mainCanvas.height;
-	
-    mainContext.clearRect(0, 0, canvasWidth, canvasHeight);
+    mainContext.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
      
     // color in the background
     mainContext.fillStyle = "white";
-    mainContext.fillRect(0, 0, canvasWidth, canvasHeight);
+    mainContext.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
 	
 	draw_transistor_background();
 	
-	var transistor_width = 55;
-	var transistor_height = 30;
-	var transistor_x = 35;
-	var transistor_y = 12;
-	
-	draw_transistor(transistor_x, transistor_y, transistor_width, transistor_height);
-	draw_channel(transistor_x, transistor_y, transistor_width, transistor_height);
-	draw_nmos_pmos(transistor_x, transistor_y, transistor_width, transistor_height);
-	draw_left_graph();
+	draw_transistor ();
+	draw_channel    ();
+	draw_nmos_pmos  ();
+	draw_left_graph ();
 	draw_right_graph();
 	
 	draw_electrons();
 	
-	requestAnimationFrame(drawCircle);
+	requestAnimationFrame(draw_princip_cinnosti);
 }
 
 // ----------------------- Drawing functions
@@ -155,22 +131,88 @@ function drawCircle() {
 function draw_transistor_background(){
 	
 	// draw a background
-	var background_scheme = new Image(); background_scheme.src = 'images/princip_cinnosti/background_scheme.png';
+	var background_scheme = new Image(); background_scheme.src = 'images/princip_cinnosti/background_scheme/background_scheme.png';
 	mainContext.beginPath();
 	mainContext.drawImage(background_scheme, 0, 0, getWidthPixelInPercent(80), getHeightPixelInPercent(50));
+	
+	var ugs_value = parseInt(document.getElementById('ugs_value').value);
+	var uds_value = parseInt(document.getElementById('uds_value').value);
+	
+	// draw UDS
+	var uds = new Image();
+	uds.src = `images/princip_cinnosti/background_scheme/uds - ${uds_value}.png`;
+	mainContext.drawImage(uds, 0, 0, getWidthPixelInPercent(80), getHeightPixelInPercent(50));
+	
+	// draw UGS
+	var ugs = new Image();
+	ugs.src = `images/princip_cinnosti/background_scheme/ugs - ${ugs_value}.png`;
+	mainContext.drawImage(ugs, 0, 0, getWidthPixelInPercent(80), getHeightPixelInPercent(50));
+	
+	// draw IDS
+	var ids = new Image();
+	switch (ugs_value){
+		case 1:	
+			if (uds_value > 1)
+				ids.src = `images/princip_cinnosti/background_scheme/ids - 1.png`;
+			else
+				ids.src = `images/princip_cinnosti/background_scheme/ids - 0.png`;
+			break;
+		case 2:	
+			if (uds_value > 1)
+				if (uds_value == 2)
+					ids.src = `images/princip_cinnosti/background_scheme/ids - 2.png`;
+				else
+					ids.src = `images/princip_cinnosti/background_scheme/ids - 3.png`;
+			else
+				ids.src = `images/princip_cinnosti/background_scheme/ids - 0.png`;
+			break;
+		case 3:	
+			if (uds_value > 1)
+				if (uds_value == 2)
+					ids.src = `images/princip_cinnosti/background_scheme/ids - 4.png`;
+				else
+					ids.src = `images/princip_cinnosti/background_scheme/ids - 5.png`;
+			else
+				ids.src = `images/princip_cinnosti/background_scheme/ids - 0.png`;
+			break;
+		default:
+			ids.src = `images/princip_cinnosti/background_scheme/ids - 0.png`;
+	}
+	mainContext.drawImage(ids, 0, 0, getWidthPixelInPercent(80), getHeightPixelInPercent(50));
+	
+	// draw IG
+	var ig = new Image();
+	ig.src = `images/princip_cinnosti/background_scheme/ig - 0.png`;
+	mainContext.drawImage(ig, 0, 0, getWidthPixelInPercent(80), getHeightPixelInPercent(50));
+	
 	mainContext.closePath();
 }
 
-function draw_transistor(transistor_x, transistor_y, transistor_width, transistor_height){
+function draw_transistor(){
 	
 	// draw a transistor
-	var transistor = new Image(); transistor.src = 'images/princip_cinnosti/transistor.png';
+	var transistor = new Image(); 
+	transistor.src = 'images/princip_cinnosti/transistor.png';
 	mainContext.beginPath();
 	mainContext.drawImage(transistor, getWidthPixelInPercent(transistor_x), getHeightPixelInPercent(transistor_y), getWidthPixelInPercent(transistor_width), getHeightPixelInPercent(transistor_height));
+	if (canvas_objects['transistor'] != null && canvas_objects['transistor'].ismouseover == true) {
+		mainContext.drawImage(transistor, getWidthPixelInPercent(transistor_x) - 20, getHeightPixelInPercent(transistor_y) - 20, getWidthPixelInPercent(transistor_width) + 40, getHeightPixelInPercent(transistor_height) + 40);
+	}
 	mainContext.closePath();
+	
+	// adding to list of all objects
+	var t = {
+		x: getWidthPixelInPercent(transistor_x),
+		y: getHeightPixelInPercent(transistor_y), 
+		w: getWidthPixelInPercent(transistor_width), 
+		h: getHeightPixelInPercent(transistor_height),
+		ismouseover: canvas_objects['transistor'] != null ? canvas_objects['transistor'].ismouseover : false
+	};
+	
+	canvas_objects['transistor'] = t;
 }
 
-function draw_channel(transistor_x, transistor_y, transistor_width, transistor_height){
+function draw_channel(){
 	
 	var ugs_value = parseInt(document.getElementById('ugs_value').value);
 	var uds_value = parseInt(document.getElementById('uds_value').value);
@@ -184,7 +226,7 @@ function draw_channel(transistor_x, transistor_y, transistor_width, transistor_h
 	mainContext.closePath();
 }
 
-function draw_nmos_pmos(transistor_x, transistor_y, transistor_width, transistor_height){
+function draw_nmos_pmos(){
 	
 	// draw a nmos/pmos
 	var mos = new Image(); mos.src = 'images/princip_cinnosti/channel_basics/nmos.png';
@@ -212,14 +254,14 @@ function draw_right_graph(){
 }
 
 function draw_electrons(){
-	moveCircles();
-	for (var i = 0; i < circles.length; i++){
+	move_electrons();
+	for (var i = 0; i < electrons_array.length; i++){
 		mainContext.beginPath();
 		
 		mainContext.arc(
-			getWidthPixelInPercent(circles[i].x), 
-			getHeightPixelInPercent(circles[i].y), 
-			getWidthPixelInPercent(radius), 
+			getWidthPixelInPercent(electrons_array[i].x), 
+			getHeightPixelInPercent(electrons_array[i].y), 
+			getWidthPixelInPercent(electrons_radius), 
 			0, 
 			Math.PI * 2, 
 			false);
@@ -229,6 +271,29 @@ function draw_electrons(){
 		
 		mainContext.closePath();
 	}
+}
+
+function on_canvas_hover(e){
+	var i = 0;
+	var mouse_pos = getMousePos(mainCanvas, e);
+	for (var key in canvas_objects) {
+		// check if we hover it, fill red, if not fill it blue
+		// console.log(mouse_pos.x, canvas_objects[key].x, ' - ', canvas_objects[key].x + canvas_objects[key].w);
+		if (mouse_pos.x >= canvas_objects[key].x && mouse_pos.x <= canvas_objects[key].x + canvas_objects[key].w && mouse_pos.y >= canvas_objects[key].y && mouse_pos.y <= canvas_objects[key].y + canvas_objects[key].h){
+			canvas_objects[key].ismouseover = true;
+		} 
+		else {
+			canvas_objects[key].ismouseover = false;
+		}
+	}
+}
+
+function getMousePos(canvas, evt) {
+	var rect = mainCanvas.getBoundingClientRect();
+	return {
+		x: evt.clientX - rect.left,
+		y: evt.clientY - rect.top
+	};
 }
 
 // ----------------------- Utils
@@ -248,54 +313,8 @@ function getWidthPercentInPixel(pixel)
 	return mainCanvas.width * pixel / 100;
 }
 
-// ------------------------------------------------------------------
+function getPercentTowardsCanvasFromPercentTowardsTransistor(percent, width = true){
+	return percent / (100 / (width ? transistor_width : transistor_height)) + (width ? transistor_x : transistor_y);
+}
 
-// function setValue(property)
-// {
-	// if (property == 'speed')
-	// {
-		// speed = Number(document.getElementById("speedRange").value);
-	// }
-	
-	// if (property == 'rows')
-	// {
-		// newRows = document.getElementById("rowsRange").value;
-		// rows = Number(newRows);
-		// distance = distanceOriginal / newRows;
-		// maxX = distance + startX;
-	// }
-	
-	// if (property == 'distance')
-	// {
-		// newDistance = document.getElementById("distanceRange").value;
-		// distanceOriginal = Number(newDistance);
-		// distance = distanceOriginal / rows;
-		// maxX = distance + startX;
-	// }
-	
-	// if (property == 'startSmoothMovement')
-	// {
-		// newStartSmoothMovement = document.getElementById("startSmoothMovementRange").value;
-		// startSmoothMovementX = Number(newStartSmoothMovement);
-	// }
-	
-	// if (property == 'endSmoothMovement')
-	// {
-		// newEndSmoothMovement = document.getElementById("endSmoothMovementRange").value;
-		// endSmoothMovementX = Number(newEndSmoothMovement);
-	// }
-	
-	// if (property == 'startFastMovementX')
-	// {
-		// startFastMovementX = Number(document.getElementById("startFastMovementXRange").value);
-	// }
-// }
-
-// setValue('speed');
-// setValue('rows');
-// setValue('distance');
-// setValue('startSmoothMovement');
-// setValue('endSmoothMovement');
-// setValue('startFastMovementX');
-
-drawCircle();
+draw_princip_cinnosti();
