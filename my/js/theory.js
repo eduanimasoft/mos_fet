@@ -13,19 +13,7 @@ var theory_sections = {
 function update_theory(section_number){
 	if (section_number == active_section_number) 
 		return;
-	
-	// $('#' + theory_sections[active_section_number]).removeClass( [ "animate__animated", "animate__fadeInUpBig", "animate__fadeOutUpBig", "animate__fadeOutDownBig", "animate__fadeInDownBig" ] );
-	// $('#' + theory_sections[section_number])   .removeClass( [ "animate__animated", "animate__fadeInUpBig", "animate__fadeOutUpBig", "animate__fadeOutDownBig", "animate__fadeInDownBig" ] );
-	
-	// if (active_section_number < section_number) {
-		// $('#' + theory_sections[active_section_number]).addClass("animate__animated animate__fadeOutUpBig");
-		// $('#' + theory_sections[section_number])   .addClass("animate__animated animate__fadeInUpBig");
-	// }
-	// else {
-		// $('#' + theory_sections[active_section_number]).addClass("animate__animated animate__fadeOutDownBig");
-		// $('#' + theory_sections[section_number])   .addClass("animate__animated animate__fadeInDownBig");
-	// }
-	
+		
 	$('#' + theory_sections[active_section_number]).removeClass( [ "animate__animated", "animate__fadeInRight", "animate__fadeOutRight", "animate__fadeOutLeft", "animate__fadeInLeft" ] );
 	$('#' + theory_sections[section_number])   .removeClass( [ "animate__animated", "animate__fadeInRight", "animate__fadeOutRight", "animate__fadeOutLeft", "animate__fadeInLeft" ] );
 	

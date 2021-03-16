@@ -3,6 +3,7 @@
 	<head>
 		<title>MOS-FET</title>
 		<link href="css/main.css" rel="stylesheet" />
+		<link href="css/home.css" rel="stylesheet" />
 		<link href="css/theory.css" rel="stylesheet" />
 		<link href="css/princip_cinnosti.css" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
@@ -15,13 +16,13 @@
 			
 			<!-- HEADER -->
 			<div class="header">
-				<a href="home.html" style="text-decoration: none; outline: none;">
+				<a href="index.html" style="text-decoration: none; outline: none;">
 					<div class="title">
 						Unipolárne tranzistory MOSFET
 					</div>
 				</a>
 			</div>
-			<div class="left_bar">
+			<div class="left_bar" id="left_bar" style="display: none;">
 				<table cellspacing="0" width="100%" height="100%"> <!-- Using table to align buttons vertically -->
 					<tr>
 						<td>
@@ -89,10 +90,61 @@
 					</tr>
 				</table>
 			</div>
+			
 				
 			<!-- ↓↓↓↓↓ main content ↓↓↓↓↓ -->
 			<div class="content" align="center">
-				<canvas id='main_canvas' style="display: block;" class="canvas canvas_intro animate__animated animate__fadeInUp" align=center></canvas> 
+			
+			
+				<!-- home page -->
+				<div class="canvas" id="home_page" style="height: auto; padding: 40px;" align="center">
+					<div class="home_content" align="center">
+						<div class="home_content_item" style="background-image: url('images/intro.png'); background-size: 100%;" onclick="start_page_on_canvas('0')">
+							<div class="home_content_item_header" align="center">Intro</div>
+							<div class="home_content_item_detail">
+								<div class="home_content_item_detail_header">Intro</div>
+								<div class="home_content_item_detail_line"></div>
+								<div class="home_content_item_detail_description">Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text </div>
+							</div>
+						</div>
+						<div class="home_content_item" style="background-image: url('images/princip_cinnosti.png'); background-size: 100%;" onclick="start_page_on_canvas('1')">
+							<div class="home_content_item_header" align="center">Princip činnosti</div>
+							<div class="home_content_item_detail">
+								<div class="home_content_item_detail_header">Princip činnosti</div>
+								<div class="home_content_item_detail_line"></div>
+								<div class="home_content_item_detail_description">Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text </div>
+							</div>
+						</div>
+						<div class="home_content_item" style="background-image: url('images/teoria.png'); background-size: 100%;" onclick="start_page_on_canvas('2')">
+							<div class="home_content_item_header" align="center">Teoria</div>
+							<div class="home_content_item_detail">
+								<div class="home_content_item_detail_header">Teoria</div>
+								<div class="home_content_item_detail_line"></div>
+								<div class="home_content_item_detail_description">Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text </div>
+							</div>
+						</div>
+					<br />
+						<div class="home_content_item" style="background-image: url('images/vyhody.png'); background-size: 100%;" onclick="start_page_on_canvas('3')">
+							<div class="home_content_item_header" align="center">Vyhody</div>
+							<div class="home_content_item_detail">
+								<div class="home_content_item_detail_header">Vyhody</div>
+								<div class="home_content_item_detail_line"></div>
+								<div class="home_content_item_detail_description">Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text </div>
+							</div>
+						</div>
+						<div class="home_content_item" style="background-image: url('images/vyuzitie.png'); background-size: 100%;" onclick="start_page_on_canvas('4')">
+							<div class="home_content_item_header" align="center">Využitie</div>
+							<div class="home_content_item_detail">
+								<div class="home_content_item_detail_header">Využitie</div>
+								<div class="home_content_item_detail_line"></div>
+								<div class="home_content_item_detail_description">Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			
+				<canvas id='main_canvas' style="display: none;" class="canvas canvas_intro animate__animated animate__fadeInUp" align=center></canvas> 
 				
 				<br />
 				
@@ -211,9 +263,9 @@
 			</div>
 			
 
-		<script src="js/index.js" type="text/javascript"></script>
-		<script src="js/intro.js" type="text/javascript"></script>
 		<script src="js/animation_engine.js"></script>
+		<script src="js/intro.js" type="text/javascript"></script>
+		<script src="js/index.js" type="text/javascript"></script>
 		<script src="js/princip_cinnosti.js"></script>
 		<script src="js/theory.js"></script>
 	</body>

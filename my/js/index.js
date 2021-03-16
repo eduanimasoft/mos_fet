@@ -1,6 +1,6 @@
-var active_canvas_id = 'main_canvas';
+var active_canvas_id = -1;
 
-var screens = {
+var canvases = {
 	0: 'main_canvas',
 	1: 'canvas_screen1',
 	2: 'princip_cinnosti',
@@ -9,77 +9,58 @@ var screens = {
 	5: 'canvas_screen5'
 }
 
-$('#btn_open_intro').click(function() {
-	switch_canvas(screens[0]);
-});
-
-$('#btn_open_screen1').click(function() {
-	switch_canvas(screens[1]);
-});
-
-$('#btn_open_screen2').click(function() {
-	switch_canvas(screens[2]);
-});
-
-$('#btn_open_screen3').click(function() {
-	switch_canvas(screens[3]);
-});
-
-$('#btn_open_screen4').click(function() {
-	switch_canvas(screens[4]);
-});
-
-$('#btn_open_screen5').click(function() {
-	switch_canvas(screens[5]);
-});
+$('#btn_open_intro').click(function()   {	switch_canvas(0); });
+$('#btn_open_screen1').click(function() {	switch_canvas(1); });
+$('#btn_open_screen2').click(function() {	switch_canvas(2); });
+$('#btn_open_screen3').click(function() {	switch_canvas(3); });
+$('#btn_open_screen4').click(function() {	switch_canvas(4); });
+$('#btn_open_screen5').click(function() {	switch_canvas(5); });
 
 
 var page_number = findGetParameter('page');
-switch_canvas(screens[page_number != null ? page_number : 0]);
+switch_canvas(page_number != null ? page_number : -1);
 
 function switch_canvas(new_canvas_id)
 {
 	if (new_canvas_id == active_canvas_id) 
 		return;
-	
-	var new_canvas_index, active_canvas_index;
-	for (var screen in screens) {
-		if (new_canvas_id == screens[screen])
-			new_canvas_index = screen;
 		
-		if (active_canvas_id == screens[screen])
-			active_canvas_index = screen;
-	}
+	$('#' + canvases[active_canvas_id]).removeClass( [ "animate__animated", "animate__fadeInUpBig", "animate__fadeOutUpBig", "animate__fadeOutDownBig", "animate__fadeInDownBig" ] );
+	$('#' + canvases[new_canvas_id])   .removeClass( [ "animate__animated", "animate__fadeInUpBig", "animate__fadeOutUpBig", "animate__fadeOutDownBig", "animate__fadeInDownBig" ] );
 	
-	$('#' + active_canvas_id).removeClass( [ "animate__animated", "animate__fadeInUpBig", "animate__fadeOutUpBig", "animate__fadeOutDownBig", "animate__fadeInDownBig" ] );
-	$('#' + new_canvas_id)   .removeClass( [ "animate__animated", "animate__fadeInUpBig", "animate__fadeOutUpBig", "animate__fadeOutDownBig", "animate__fadeInDownBig" ] );
-	
-	if (active_canvas_index < new_canvas_index) {
-		$('#' + active_canvas_id).addClass("animate__animated animate__fadeOutUpBig");
-		$('#' + new_canvas_id)   .addClass("animate__animated animate__fadeInUpBig");
+	if (active_canvas_id < new_canvas_id) {
+		$('#' + canvases[active_canvas_id]).addClass("animate__animated animate__fadeOutUpBig");
+		$('#' + canvases[new_canvas_id])   .addClass("animate__animated animate__fadeInUpBig");
 	}
 	else {
-		$('#' + active_canvas_id).addClass("animate__animated animate__fadeOutDownBig");
-		$('#' + new_canvas_id)   .addClass("animate__animated animate__fadeInDownBig");
+		$('#' + canvases[active_canvas_id]).addClass("animate__animated animate__fadeOutDownBig");
+		$('#' + canvases[new_canvas_id])   .addClass("animate__animated animate__fadeInDownBig");
 	}
 	
-	document.getElementById(new_canvas_id).style.display = "block";
+	document.getElementById(canvases[new_canvas_id]).style.display = "block";
 	active_canvas_id = new_canvas_id;
 	
-	if (active_canvas_id == 'main_canvas'){
+	if (active_canvas_id == 0){
 		StartAnimation();
 	}
 }
 
+function start_page_on_canvas(canvas_number){
+		$('#home_page').removeClass( [ "animate__animated", "animate__fadeOutLeft", "animate__fadeInDownBig" ] );
+		$('#home_page').addClass("animate__animated animate__fadeOutLeft");
+		
+		$('#left_bar').removeClass( [ "animate__animated", "animate__fadeInLeft", "animate__fadeOutLeft" ] );
+		$('#left_bar').addClass("animate__animated animate__fadeInLeft");
+		document.getElementById('left_bar').style.display = 'block';
+		
+		switch_canvas(canvas_number);
+}
+
 function findGetParameter(parameterName) {
-    var result = null,
-        tmp = [];
-    location.search
-        .substr(1)
-        .split("&")
-        .forEach(function (item) {
-          tmp = item.split("=");
-          if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
-        });
-    return result;
+	var result = null, tmp = [];
+	location.search.substr(1).split("&").forEach(function (item) {
+		tmp = item.split("=");
+		if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+	});
+	return result;
 }
