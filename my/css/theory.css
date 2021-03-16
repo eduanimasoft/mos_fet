@@ -1,0 +1,59 @@
+.theory_left_menu_item {
+	height: 10%;
+	width: 100%;
+	display: table;
+	
+	margin-top: 10px;
+	
+	text-align: right;
+	background-color: white;
+	
+	padding: 10px;
+	
+	border: 1px solid black;
+	border-radius: 20px;
+	
+	transition: 1.5s;
+}
+
+.theory_left_menu_item:hover {
+	height: 13%;
+	background-color: lightgreen;
+	
+	margin-top: 20px;
+	margin-bottom: 20px;
+	
+	border: 3px solid black;
+	text-align: right;
+	
+	cursor: pointer;
+	transition: 0.5s;
+}
+
+.theory_left_menu_item_selected {
+	background-color: lightblue;
+}
+
+.theory_left_menu_item_center{
+	width: 100%;
+	display: table-cell;
+	vertical-align: middle;
+	
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+.theory_section{
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	
+	width: 90%; 
+	height: 90%; 
+	background-image: url('images/theory/rozdelenie.png'); 
+	background-size: contain; 
+	background-repeat: no-repeat;
+	background-position: center;
+	
+	display: block;
+}

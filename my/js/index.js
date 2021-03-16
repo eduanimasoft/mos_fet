@@ -4,7 +4,7 @@ var screens = {
 	0: 'main_canvas',
 	1: 'canvas_screen1',
 	2: 'princip_cinnosti',
-	3: 'canvas_screen3',
+	3: 'canvas_teoria',
 	4: 'canvas_screen4',
 	5: 'canvas_screen5'
 }
