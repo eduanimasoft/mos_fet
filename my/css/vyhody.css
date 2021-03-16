@@ -1,0 +1,48 @@
+.vyhody_content{
+	width: 100%;
+	height: 85%;
+	overflow: hidden; 
+	position: relative;
+}
+
+.vyhody_section{
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	
+	width: 90%; 
+	height: 90%; 
+	background-image: url('images/theory/rozdelenie.png'); 
+	background-size: contain; 
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.vyhody_bottom_menu{
+	width: 100%;
+	height: 15%;
+	display: table;
+	border-spacing: 10px;
+}
+
+.vyhody_bottom_menu_item{
+	width: 15%;
+	background-color: white;
+	border-radius: 20px;
+	border: 1px solid black;
+	
+	padding: 10px;
+	display: table-cell;
+	vertical-align: middle;
+	transition: 1s;
+	font-size: 17pt;
+}
+
+.vyhody_bottom_menu_item:hover{
+	background-color: yellow;
+	cursor: pointer;
+}
+
+.vyhody_bottom_menu_item_selected{
+	background-color: mistyrose;
+}

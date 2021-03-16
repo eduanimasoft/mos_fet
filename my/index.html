@@ -5,6 +5,7 @@
 		<link href="css/main.css" rel="stylesheet" />
 		<link href="css/home.css" rel="stylesheet" />
 		<link href="css/theory.css" rel="stylesheet" />
+		<link href="css/vyhody.css" rel="stylesheet" />
 		<link href="css/princip_cinnosti.css" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>		
@@ -263,8 +264,21 @@
 				
 				<br />
 				
-				<div id='canvas_vyhody' class="canvas animate__animated animate__fadeInUp" style="display: none; background-color: lightblue;">
-					<!-- <img src="images/intro/canvas_screen3.png" width=80% /> -->
+				<div id='canvas_vyhody' class="canvas animate__animated animate__fadeInUp" style="display: none; background-color: white;">
+					<div class="vyhody_content">
+						<div id='vyhody_vystup'   class="vyhody_section" style="background-image: url('images/theory/rozdelenie.png');       display: block;"></div>
+						<div id='vyhody_hustota'  class="vyhody_section" style="background-image: url('images/theory/indukovany_kanal.png'); display: none;"></div>
+						<div id='vyhody_odolnost' class="vyhody_section" style="background-image: url('images/theory/vodivy_kanal.png');     display: none;"></div>
+						<div id='vyhody_sum'      class="vyhody_section" style="background-image: url('images/theory/meranie_ut.png');       display: none;"></div>
+						<div id='vyhody_rychlost' class="vyhody_section" style="background-image: url('images/theory/prahove_napatie.png');  display: none;"></div>
+					</div>
+					<div class="vyhody_bottom_menu">
+						<span class="vyhody_bottom_menu_item vyhody_bottom_menu_item_selected" onclick="update_vyhody('0')">Vystupný odbor         </span>
+						<span class="vyhody_bottom_menu_item" onclick="update_vyhody('1')">Hustota integrácie IO  </span>
+						<span class="vyhody_bottom_menu_item" onclick="update_vyhody('2')">Odolnost voči žiareniu </span>
+						<span class="vyhody_bottom_menu_item" onclick="update_vyhody('3')">Šum stabilita          </span>
+						<span class="vyhody_bottom_menu_item" onclick="update_vyhody('4')">Rýchlosť               </span>
+					</div>                                    
 				</div> 
 				
 				<br />
@@ -275,10 +289,11 @@
 			</div>
 			
 
-		<script src="js/animation_engine.js"></script>
+		<script src="js/animation_engine.js" type="text/javascript"></script>
 		<script src="js/intro.js" type="text/javascript"></script>
 		<script src="js/index.js" type="text/javascript"></script>
-		<script src="js/princip_cinnosti.js"></script>
-		<script src="js/theory.js"></script>
+		<script src="js/princip_cinnosti.js" type="text/javascript"></script>
+		<script src="js/theory.js" type="text/javascript"></script>
+		<script src="js/vyhody.js" type="text/javascript"></script>
 	</body>
 </html>

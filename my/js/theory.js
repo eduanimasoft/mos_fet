@@ -14,16 +14,16 @@ function update_theory(section_number){
 	if (section_number == active_section_number) 
 		return;
 		
-	$('#' + theory_sections[active_section_number]).removeClass( [ "animate__animated", "animate__fadeInRight", "animate__fadeOutRight", "animate__fadeOutLeft", "animate__fadeInLeft" ] );
-	$('#' + theory_sections[section_number])   .removeClass( [ "animate__animated", "animate__fadeInRight", "animate__fadeOutRight", "animate__fadeOutLeft", "animate__fadeInLeft" ] );
+	$('#' + theory_sections[active_section_number]).removeClass( [ "animate__animated", "animate__fadeInUp", "animate__fadeOutDown", "animate__fadeOutUp", "animate__fadeInDown" ] );
+	$('#' + theory_sections[section_number])   .removeClass( [ "animate__animated", "animate__fadeInUp", "animate__fadeOutDown", "animate__fadeOutUp", "animate__fadeInDown" ] );
 	
 	if (active_section_number < section_number) {
-		$('#' + theory_sections[active_section_number]).addClass("animate__animated animate__fadeOutLeft");
-		$('#' + theory_sections[section_number])   .addClass("animate__animated animate__fadeInRight");
+		$('#' + theory_sections[active_section_number]).addClass("animate__animated animate__fadeOutUp");
+		$('#' + theory_sections[section_number])   .addClass("animate__animated animate__fadeInUp");
 	}
 	else {
-		$('#' + theory_sections[active_section_number]).addClass("animate__animated animate__fadeOutRight");
-		$('#' + theory_sections[section_number])   .addClass("animate__animated animate__fadeInLeft");
+		$('#' + theory_sections[active_section_number]).addClass("animate__animated animate__fadeOutDown");
+		$('#' + theory_sections[section_number])   .addClass("animate__animated animate__fadeInDown");
 	}
 	
 	document.getElementById(theory_sections[section_number]).style.display = "block";
