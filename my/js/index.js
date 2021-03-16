@@ -5,17 +5,16 @@ var canvases = {
 	1: 'canvas_screen1',
 	2: 'princip_cinnosti',
 	3: 'canvas_teoria',
-	4: 'canvas_screen4',
+	4: 'canvas_vyhody',
 	5: 'canvas_screen5'
-}
+};
 
-$('#btn_open_intro').click(function()   {	switch_canvas(0); });
+$('#btn_open_screen0')  .click(function() {	switch_canvas(0); });
 $('#btn_open_screen1').click(function() {	switch_canvas(1); });
 $('#btn_open_screen2').click(function() {	switch_canvas(2); });
 $('#btn_open_screen3').click(function() {	switch_canvas(3); });
 $('#btn_open_screen4').click(function() {	switch_canvas(4); });
 $('#btn_open_screen5').click(function() {	switch_canvas(5); });
-
 
 var page_number = findGetParameter('page');
 switch_canvas(page_number != null ? page_number : -1);
@@ -37,6 +36,8 @@ function switch_canvas(new_canvas_id)
 		$('#' + canvases[new_canvas_id])   .addClass("animate__animated animate__fadeInDownBig");
 	}
 	
+	console.log(new_canvas_id, canvases[new_canvas_id]);
+	
 	document.getElementById(canvases[new_canvas_id]).style.display = "block";
 	active_canvas_id = new_canvas_id;
 	
@@ -53,6 +54,8 @@ function start_page_on_canvas(canvas_number){
 		$('#left_bar').addClass("animate__animated animate__fadeInLeft");
 		document.getElementById('left_bar').style.display = 'block';
 		
+		$('#btn_open_screen'+canvas_number)  .addClass("start_anim_button_selected");
+		
 		switch_canvas(canvas_number);
 }
 
@@ -64,3 +67,8 @@ function findGetParameter(parameterName) {
 	});
 	return result;
 }
+
+$('.start_anim_button').on('click', function(){
+    $('.start_anim_button').removeClass('start_anim_button_selected');
+    $(this).addClass('start_anim_button_selected');
+});
