@@ -3,6 +3,7 @@
 	<head>
 		<title>MOS-FET</title>
 		<link href="css/main.css" rel="stylesheet" />
+		<link href="css/pouzitie.css" rel="stylesheet" />
 		<link href="css/home.css" rel="stylesheet" />
 		<link href="css/theory.css" rel="stylesheet" />
 		<link href="css/vyhody.css" rel="stylesheet" />
@@ -87,18 +88,18 @@
 									</tr>
 								</table>
 							</div>
-							<div class="start_anim_button" id="btn_open_screen5">
-								<table>
-									<tr>					
-										<td class="start_anim_button_text">
-											<div class="text">Vyhody</div>
-										</td>
-										<td class="start_anim_button_image">
-											<img src="images/vyhody.png" />
-										</td>
-									</tr>
-								</table>
-							</div>
+							<!-- <div class="start_anim_button" id="btn_open_screen5"> -->
+								<!-- <table> -->
+									<!-- <tr>					 -->
+										<!-- <td class="start_anim_button_text"> -->
+											<!-- <div class="text">Vyhody</div> -->
+										<!-- </td> -->
+										<!-- <td class="start_anim_button_image"> -->
+											<!-- <img src="images/vyhody.png" /> -->
+										<!-- </td> -->
+									<!-- </tr> -->
+								<!-- </table> -->
+							<!-- </div> -->
 						</td>
 					</tr>
 				</table>
@@ -161,12 +162,16 @@
 				
 				<br />
 				
-				<div 
-					id='canvas_screen1'
-					align=center
-					class="canvas animate__animated animate__fadeInUp" 
-					style="display: none; background-color: lightgreen;">
-					<img src="images/canvas_screen1/canvas_screen1.png" width=80% />
+				<div id='pouzitie' class="canvas animate__animated animate__fadeInUp" style="display: none; background-color: white; padding: 20px;">
+					<div class="pouzitie_title">Aplikácie MOS FET</div>
+					<div class="pouzitie_text"> - Obohacovacie MOSFET-y nachádzajú využitie v rozličných integrovaných obvodoch.</div>
+					<div class="pouzitie_text">- Napr. logické hradlá NOT, AND a NAND sú štandardne realizované obohacovacími MOSFET-mi a sú neodmysliteľnými komponentami pamäťových obvodov.</div>
+					<div class="pouzitie_text">- Používajú sa v integrovaných obvodoch s vysokou hustotou tranzistorov na čípe, v digitálnych integrovaných obvodoch, vo výkonných počítačoch (procesory, pamäte a podporné 10.</div>
+					
+					<!-- <div class="pouzitie_image" style="background-image: url('images/pouzitie/img_0.png'); bottom: 20px; left: 20px;"></div> -->
+					<!-- <div class="pouzitie_image" style="background-image: url('images/pouzitie/img_0.png'); bottom: 20px; left: 240px;"></div> -->
+					<!-- <div class="pouzitie_image" style="background-image: url('images/pouzitie/img_0.png'); bottom: 20px; left: 460px;"></div> -->
+					<!-- <div class="pouzitie_image" style="background-image: url('images/pouzitie/img_0.png'); bottom: 20px; left: 680px;"></div> -->
 				</div> 
 				
 				<br />
@@ -265,12 +270,13 @@
 				<br />
 				
 				<div id='canvas_vyhody' class="canvas animate__animated animate__fadeInUp" style="display: none; background-color: white;">
+					<div class="vyhody_title">Unipolárny vs. Bipolárny Tranzistor</div>
 					<div class="vyhody_content">
-						<div id='vyhody_vystup'   class="vyhody_section" style="background-image: url('images/theory/rozdelenie.png');       display: block;"></div>
-						<div id='vyhody_hustota'  class="vyhody_section" style="background-image: url('images/theory/indukovany_kanal.png'); display: none;"></div>
-						<div id='vyhody_odolnost' class="vyhody_section" style="background-image: url('images/theory/vodivy_kanal.png');     display: none;"></div>
-						<div id='vyhody_sum'      class="vyhody_section" style="background-image: url('images/theory/meranie_ut.png');       display: none;"></div>
-						<div id='vyhody_rychlost' class="vyhody_section" style="background-image: url('images/theory/prahove_napatie.png');  display: none;"></div>
+						<div id='vyhody_vystup'   class="vyhody_section" style="background-image: url('images/vyhody/vstupny_odbor.png');      display: block;"></div>
+						<div id='vyhody_hustota'  class="vyhody_section" style="background-image: url('images/vyhody/hustota_integracie.png'); display: none;"></div>
+						<div id='vyhody_odolnost' class="vyhody_section" style="background-image: url('images/vyhody/odolnost_voci.png');      display: none;"></div>
+						<div id='vyhody_sum'      class="vyhody_section" style="background-image: url('images/vyhody/sum_stabilita.png');      display: none;"></div>
+						<div id='vyhody_rychlost' class="vyhody_section" style="background-image: url('images/vyhody/rychlost.png');           display: none;"></div>
 					</div>
 					<div class="vyhody_bottom_menu">
 						<span class="vyhody_bottom_menu_item vyhody_bottom_menu_item_selected" onclick="update_vyhody('0')">Vystupný odbor         </span>

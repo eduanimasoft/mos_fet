@@ -8,7 +8,7 @@ mainCanvas.onmousemove = on_canvas_hover;
 // ------------- Electrons parameters (all the values are percents towards transisot width)
 
 var electrons_moving_speed = 0.1;
-var electrons_radius       = 0.5; 
+var electrons_radius       = 1; 
 var electrons_rows_number  = 2;
 
 var electrons_start_positions_x = 35;
@@ -258,13 +258,17 @@ function draw_electrons(){
 	for (var i = 0; i < electrons_array.length; i++){
 		mainContext.beginPath();
 		
-		mainContext.arc(
-			getWidthPixelInPercent(electrons_array[i].x), 
-			getHeightPixelInPercent(electrons_array[i].y), 
-			getWidthPixelInPercent(electrons_radius), 
-			0, 
-			Math.PI * 2, 
-			false);
+		// mainContext.arc(
+			// getWidthPixelInPercent(electrons_array[i].x), 
+			// getHeightPixelInPercent(electrons_array[i].y), 
+			// getWidthPixelInPercent(electrons_radius), 
+			// 0, 
+			// Math.PI * 2, 
+			// false);
+		
+		var electron_image = new Image();
+		electron_image.src = 'images/princip_cinnosti/electron_image.png';
+		mainContext.drawImage(electron_image, getWidthPixelInPercent(electrons_array[i].x) - (getWidthPixelInPercent(electrons_radius) / 2), getHeightPixelInPercent(electrons_array[i].y) - (getWidthPixelInPercent(electrons_radius) / 2), getWidthPixelInPercent(electrons_radius), getWidthPixelInPercent(electrons_radius));
 		
 		mainContext.fillStyle = "black";
 		mainContext.fill();

@@ -2,7 +2,7 @@ var active_canvas_id = -1;
 
 var canvases = {
 	0: 'main_canvas',
-	1: 'canvas_screen1',
+	1: 'pouzitie',
 	2: 'princip_cinnosti',
 	3: 'canvas_teoria',
 	4: 'canvas_vyhody',
@@ -70,3 +70,5 @@ $('.start_anim_button').on('click', function(){
     $('.start_anim_button').removeClass('start_anim_button_selected');
     $(this).addClass('start_anim_button_selected');
 });
+
+start_page_on_canvas(2);
