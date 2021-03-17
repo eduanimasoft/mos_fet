@@ -27,14 +27,14 @@ function switch_canvas(new_canvas_id)
 	$('#' + canvases[active_canvas_id]).removeClass( [ "animate__animated", "animate__fadeInUpBig", "animate__fadeOutUpBig", "animate__fadeOutDownBig", "animate__fadeInDownBig" ] );
 	$('#' + canvases[new_canvas_id])   .removeClass( [ "animate__animated", "animate__fadeInUpBig", "animate__fadeOutUpBig", "animate__fadeOutDownBig", "animate__fadeInDownBig" ] );
 	
-	if (active_canvas_id < new_canvas_id) {
-		$('#' + canvases[active_canvas_id]).addClass("animate__animated animate__fadeOutUpBig");
-		$('#' + canvases[new_canvas_id])   .addClass("animate__animated animate__fadeInUpBig");
-	}
-	else {
+	// if (active_canvas_id < new_canvas_id) {
+		// $('#' + canvases[active_canvas_id]).addClass("animate__animated animate__fadeOutDownBig");
+		// $('#' + canvases[new_canvas_id])   .addClass("animate__animated animate__fadeInUpBig");
+	// }
+	// else {
 		$('#' + canvases[active_canvas_id]).addClass("animate__animated animate__fadeOutDownBig");
 		$('#' + canvases[new_canvas_id])   .addClass("animate__animated animate__fadeInDownBig");
-	}
+	// }
 	
 	document.getElementById(canvases[new_canvas_id]).style.display = "block";
 	active_canvas_id = new_canvas_id;
