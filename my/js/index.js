@@ -6,10 +6,10 @@ var canvases = {
 	2: 'princip_cinnosti',
 	3: 'canvas_teoria',
 	4: 'canvas_vyhody',
-	5: 'canvas_screen5'
+	5: 'canvas_vyvoj'
 };
 
-$('#btn_open_screen0')  .click(function() {	switch_canvas(0); });
+$('#btn_open_screen0').click(function() {	switch_canvas(0); });
 $('#btn_open_screen1').click(function() {	switch_canvas(1); });
 $('#btn_open_screen2').click(function() {	switch_canvas(2); });
 $('#btn_open_screen3').click(function() {	switch_canvas(3); });
@@ -71,4 +71,4 @@ $('.start_anim_button').on('click', function(){
     $(this).addClass('start_anim_button_selected');
 });
 
-start_page_on_canvas(2);
+// start_page_on_canvas(2);

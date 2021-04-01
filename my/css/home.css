@@ -1,4 +1,16 @@
 /* For HOME page */
+
+:root
+{
+	--home-content-item-width: 200px;
+	--home-content-item-height: 200px;
+	--home-content-item-width-hover: 250px;
+	--home-content-item-height-hover: 250px;
+	
+	--home-content-item-detail-width-hover: 450px;
+	--home-content-item-detail-height-hover: 250px;
+}
+
 a
 {
 	text-decoration: none;
@@ -8,31 +20,28 @@ a
 
 .home_content
 {
-	/* padding-bottom: 50px; */
-	
-	/* border: 5px solid black; */
-	/* border-radius: 50px; */
-	
-	/* background-color: #e6eff6; */
+	overflow: hidden;
 }
 
 .home_content_item
 {
 	width: var(--home-content-item-width);
 	height: var(--home-content-item-height);
-	/* background-color: green; */
-	margin: 30px;
+	
+	text-align: center;
+	
+	/* margin: 30px; */
 	position: relative;
-	display: inline-block;
+	/* display: inline-block; */
 	border-radius: 20px;
-	transition: 1.5s;
+	transition: 0.3s linear;
 }
 
 .home_content_item:hover
 {
-	width: var(--home-content-item-width-hover);
-	height: var(--home-content-item-height-hover);
-	margin: 50px;
+	/* width: var(--home-content-item-width-hover); */
+	/* height: var(--home-content-item-height-hover); */
+	margin: 10px; 
 	transition: 0.5s;
 	cursor: pointer;
 }
@@ -51,7 +60,7 @@ a
 {
 	width: var(--home-content-item-width);
 	height: var(--home-content-item-height);
-	background-color: #f1d3a1;
+	background-color: #FFE8E3;
 	
 	position: absolute;
 	left: 0px;
@@ -72,8 +81,8 @@ a
 {
 	opacity: 1;
 	
-	left: 50px;
-	top: 50px;
+	left: -50%;
+	top: 0;
 	
 	width: var(--home-content-item-detail-width-hover);
 	height: var(--home-content-item-detail-height-hover);

@@ -1,0 +1,7 @@
+1. ugs - 1 az 4 (nie 0 az 3) - hotovo
+2. oznacit ugs a uds slidery ako poradie, nie napatie (dat bodku za cislom)
+3. rozdelit parametre rezim / nmos / ugs   - hotovo
+4. slider ugs / uds - dat prec cisla, pridat ciarky do pozadia slideru - hotovo
+5. opravit diakritiku
+6. DS a GS zapisat ako index
+7. 
