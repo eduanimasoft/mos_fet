@@ -71,4 +71,4 @@ $('.start_anim_button').on('click', function(){
     $(this).addClass('start_anim_button_selected');
 });
 
-// start_page_on_canvas(2);
+start_page_on_canvas(2);

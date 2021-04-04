@@ -3,5 +3,10 @@
 3. rozdelit parametre rezim / nmos / ugs   - hotovo
 4. slider ugs / uds - dat prec cisla, pridat ciarky do pozadia slideru - hotovo
 5. opravit diakritiku
-6. DS a GS zapisat ako index
-7. 
+6. DS a GS zapisat ako index - hotovo
+
+
+7. pridat kruzok v tom uzle kde sa prekrizuju ciary ugs uds - hotovo
+8. channel add opacity 0.7 - hotovo
+9. grafs - hotovo
+10. multimeter - v procese

@@ -15,6 +15,9 @@ var third_line_interval = null;
 var uds_value = 0;
 var ugs_value = 0;
 
+var previous_ugs_value = 0;
+var previous_uds_value = 1;
+
 var active_channel = null;
 var active_opn = null;
 
@@ -22,10 +25,14 @@ var nmos_transistor_color = "#FFBDBD";
 var pmos_transistor_color = "#BDE6FF";
 
 var nmos_channel_base_color = "#A1BAEC";
-var pmos_channel_base_color = "#C38059";
+var pmos_channel_base_color = "#FF8F76";
 
 var nmos_channel_color = "#CBDEFB";
 var pmos_channel_color = "#F9B9A0";
+
+var multimeter_standart_color = "#BBBBBB";
+var multimeter_positive_color = "red";
+var multimeter_negative_color = "blue";
 
 var electron = document.getElementById("electron");
 
@@ -57,6 +64,37 @@ var u_parameters = {
 	},
 };
 
+var graph_points = {
+	"ugs_0":{
+		"uds_1" : 0,
+		"uds_2" : 0.15,
+		"uds_3" : 0.3,
+		"uds_4" : 0.45,
+		"uds_5" : 0.6,
+	},
+	"ugs_1":{
+		"uds_1" : 0,
+		"uds_2" : 0.07,
+		"uds_3" : 0.15,
+		"uds_4" : 0.19,
+		"uds_5" : 0.5,
+	},
+	"ugs_2":{
+		"uds_1" : 0,
+		"uds_2" : 0.15,
+		"uds_3" : 0.25,
+		"uds_4" : 0.35,
+		"uds_5" : 0.6,
+	},
+	"ugs_3":{
+		"uds_1" : 0,
+		"uds_2" : 0.25,
+		"uds_3" : 0.35,
+		"uds_4" : 0.50,
+		"uds_5" : 0.75,
+	},
+};
+
 function start_electrons_flow(){
 	ugs_value = parseInt(document.getElementById('ugs_value').value);
 	uds_value = parseInt(document.getElementById('uds_value').value);
@@ -64,6 +102,160 @@ function start_electrons_flow(){
 	run_electrons();
 	draw_channel();
 	draw_opn();
+	
+	// ----- graphs
+	draw_output_characteristics_graph();
+	draw_multimeter();
+}
+
+function draw_multimeter(){
+	var ugs_arr = document.getElementById('multimeter_ugs_group').children;
+	var uds_arr = document.getElementById('multimeter_uds_group').children;
+	var ids_arr = document.getElementById('multimeter_ids_group').children;
+
+	for (var i = 0; i < ugs_arr.length; i++){
+		ugs_arr[i].style.fill = multimeter_standart_color;
+		uds_arr[i].style.fill = multimeter_standart_color;
+		ids_arr[i].style.fill = multimeter_standart_color;
+	}
+	
+	var start = 4;
+	var end = 8;
+	var ugs_x = start;
+	var index = 0;
+	for (var i = start; i < end; i++){
+		setTimeout(function(){
+			ugs_arr[ugs_x++].style.fill = multimeter_positive_color;
+		}, index++ * 200);
+	}
+	
+	start = 4;
+	end = 8;
+	var uds_x = 4;
+	index = 0;
+	for (var i = start; i < end; i++){
+		setTimeout(function(){
+			uds_arr[uds_x++].style.fill = multimeter_positive_color;
+		}, index++ * 200);
+	}
+	
+	start = 4;
+	end = 8;
+	var ids_x = 4;
+	index = 0;
+	for (var i = start; i < end; i++){
+		setTimeout(function(){
+			ids_arr[ids_x++].style.fill = multimeter_positive_color;
+		}, index++ * 200);
+	}
+}
+
+function draw_output_characteristics_graph(){
+	if (previous_ugs_value == ugs_value) {
+		go_from_current_to_destination();
+	} else {
+		go_from_current_to_start();
+	}
+	
+	previous_ugs_value = ugs_value;
+	previous_uds_value = uds_value;
+	
+	function go_from_current_to_start(){
+		var path = "output_characteristics_path_nmos_ugs_" + previous_ugs_value;
+		var parameters = {
+			motionPath: {
+					path: "#" + path,
+					align: "#" + path,
+					alignOrigin: [0.5, 0.5],
+					start: graph_points["ugs_" + previous_ugs_value]["uds_" + previous_uds_value],
+					end: 0,
+				},
+			ease: Linear.easeNone,
+			duration: 0.2,
+			onComplete: function(){
+				if (uds_value != 1){
+					go_from_start_to_destination();
+				}
+			},
+		};
+		gsap.to("#point_nmos", parameters);	
+		
+		var pmos_animation_parameters = {
+			motionPath: {
+					path: "#output_characteristics_path_pmos_ugs_" + previous_ugs_value,
+					align: "#output_characteristics_path_pmos_ugs_" + previous_ugs_value,
+					alignOrigin: [0.5, 0.5],
+					start: graph_points["ugs_" + previous_ugs_value]["uds_" + previous_uds_value],
+					end: 0,
+				},
+			ease: Linear.easeNone,
+			duration: 0.2,
+			onComplete: function(){
+				if (uds_value != 1){
+					go_from_start_to_destination();
+				}
+			},
+		};
+		gsap.to("#point_pmos", pmos_animation_parameters);	
+	}
+	
+	function go_from_current_to_destination(){
+		var path = "output_characteristics_path_nmos_ugs_" + ugs_value;
+		var parameters = {
+			motionPath: {
+					path: "#" + path,
+					align: "#" + path,
+					alignOrigin: [0.5, 0.5],
+					start: graph_points["ugs_" + previous_ugs_value]["uds_" + previous_uds_value],
+					end: graph_points["ugs_" + ugs_value]["uds_" + uds_value],
+				},
+			ease: Linear.easeNone,
+			duration: 0.2,
+		};
+		gsap.to("#point_nmos", parameters);	
+		
+		var pmos_animation_parameters = {
+			motionPath: {
+					path: "#output_characteristics_path_pmos_ugs_" + ugs_value,
+					align: "#output_characteristics_path_pmos_ugs_" + ugs_value,
+					alignOrigin: [0.5, 0.5],
+					start: graph_points["ugs_" + previous_ugs_value]["uds_" + previous_uds_value],
+					end: graph_points["ugs_" + ugs_value]["uds_" + uds_value],
+				},
+			ease: Linear.easeNone,
+			duration: 0.2,
+		};
+		gsap.to("#point_pmos", pmos_animation_parameters);	
+	}
+	
+	function go_from_start_to_destination(){
+		var path = "output_characteristics_path_nmos_ugs_" + ugs_value;
+		var parameters = {
+			motionPath: {
+					path: "#" + path,
+					align: "#" + path,
+					alignOrigin: [0.5, 0.5],
+					start: 0,
+					end: graph_points["ugs_" + ugs_value]["uds_" + uds_value],
+				},
+			ease: Linear.easeNone,
+			duration: 0.2,
+		};
+		gsap.to("#point_nmos", parameters);	
+		
+		var pmos_animation_parameters = {
+			motionPath: {
+					path: "#output_characteristics_path_pmos_ugs_" + ugs_value,
+					align: "#output_characteristics_path_pmos_ugs_" + ugs_value,
+					alignOrigin: [0.5, 0.5],
+					start: 0,
+					end: graph_points["ugs_" + ugs_value]["uds_" + uds_value],
+				},
+			ease: Linear.easeNone,
+			duration: 0.2,
+		};
+		gsap.to("#point_pmos", pmos_animation_parameters);	
+	}
 }
 
 function remove_electron(index, arr){
@@ -84,11 +276,11 @@ function run_electrons(){
 
 	var b = setTimeout(() => {
 		second_line_interval = setInterval(add_electron, time, 2);
-	}, time / (ugs_value - 1));
+	}, time / (ugs_value));
 
 	var c = setTimeout(() => {
 		third_line_interval = setInterval(add_electron, time, 3);
-	}, (time / (ugs_value - 1)) * 2);
+	}, (time / (ugs_value)) * 2);
 }
 
 function draw_channel(){
@@ -101,7 +293,7 @@ function draw_channel(){
 		uds = "1_2_3";
 	}
 	
-	var channel = "channel_ugs_" + (ugs_value - 1) + "_uds_" + uds;
+	var channel = "channel_ugs_" + (ugs_value) + "_uds_" + uds;
 	var new_channel = document.getElementById(channel);
 	if (new_channel == null){
 		return;
@@ -118,7 +310,7 @@ function draw_opn(){
 		active_opn.style.display = "none";
 	}
 	
-	if (ugs_value == 1 || uds_value == 1){
+	if (ugs_value == 0 || uds_value == 1){
 		return;
 	}
 	
@@ -127,16 +319,16 @@ function draw_opn(){
 		uds = "1_2";
 	}
 	// opn_ugs_1_uds_1_2
-	var opn = "opn_ugs_" + (ugs_value - 1) + "_uds_" + uds;
+	var opn = "opn_ugs_" + (ugs_value) + "_uds_" + uds;
 	active_opn = document.getElementById(opn);
 	active_opn.style.display = "block";
 }
 
 function add_electron(line_number){
-	if (ugs_value == 1 || uds_value == 1)
+	if (ugs_value == 0 || uds_value == 1)
 		return;
 	
-	if ((ugs_value - 1) < line_number)
+	if ((ugs_value) < line_number)
 		return;
 	
 	var path = "";
@@ -240,20 +432,58 @@ function switch_nmos(){
 	var right_channel_base = document.getElementById("nmos_base_channel_right_fill");
 	
 	if (nmos.checked) {
-		transistor.style.fill   = nmos_transistor_color;
+		transistor.style.fill = nmos_transistor_color;
 		left_channel_base.style.fill  = nmos_channel_base_color;
 		right_channel_base.style.fill = nmos_channel_base_color;
 		
 		electron = document.getElementById("electron");
+		
+		document.getElementById("output_characteristics_pmos_group").style.display = "none";
+		document.getElementById("output_characteristics_nmos_group").style.display = "block";
+		
+		document.getElementById("prevodova_charakteristika_path_pmos_group").style.display = "none";
+		document.getElementById("prevodova_charakteristika_path_nmos_group").style.display = "block";
 	} else {
-		transistor.style.fill   = pmos_transistor_color;
+		transistor.style.fill = pmos_transistor_color;
 		left_channel_base.style.fill  = pmos_channel_base_color;
 		right_channel_base.style.fill = pmos_channel_base_color;
 		
 		electron = document.getElementById("proton");
+		
+		document.getElementById("output_characteristics_pmos_group").style.display = "block";
+		document.getElementById("output_characteristics_nmos_group").style.display = "none";
+		
+		document.getElementById("prevodova_charakteristika_path_pmos_group").style.display = "block";
+		document.getElementById("prevodova_charakteristika_path_nmos_group").style.display = "none";
 	}
 	
 	change_channel_color();
+	draw_multimeter();
+}
+
+function change_mode(){
+	var rich_mode = document.getElementById("rich_mode_radio");
+	if (rich_mode.checked){
+		document.getElementById("prevodova_charakteristika_path_pmos_rich_group").style.display = "block";
+		document.getElementById("prevodova_charakteristika_path_nmos_rich_group").style.display = "block";
+		
+		document.getElementById("prevodova_charakteristika_path_pmos_poor_group").style.display = "none";
+		document.getElementById("prevodova_charakteristika_path_nmos_poor_group").style.display = "none";
+		
+		document.getElementById("ugs_value").min = 0;
+	} else {
+		document.getElementById("prevodova_charakteristika_path_pmos_rich_group").style.display = "none";
+		document.getElementById("prevodova_charakteristika_path_nmos_rich_group").style.display = "none";
+		
+		document.getElementById("prevodova_charakteristika_path_pmos_poor_group").style.display = "block";
+		document.getElementById("prevodova_charakteristika_path_nmos_poor_group").style.display = "block";
+		
+		document.getElementById("ugs_value").min = 1;
+		if (document.getElementById("ugs_value").value != 1)
+			document.getElementById("ugs_value").value = 1;
+	}
+	
+	start_electrons_flow();
 }
 
 function change_channel_color(){
