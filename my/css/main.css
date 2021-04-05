@@ -164,5 +164,6 @@ body
 	border-radius: 20px;
 	
 	display:block;
+	overflow: hidden;
 	z-index: -1;
 }

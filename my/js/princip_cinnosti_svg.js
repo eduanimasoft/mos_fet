@@ -1550,4 +1550,6 @@ function update_ugs_uds_text_value(){
 	}
 }
 
+ugs_value = parseInt(document.getElementById('ugs_value').value);
+uds_value = parseInt(document.getElementById('uds_value').value);	
 draw_multimeter();
