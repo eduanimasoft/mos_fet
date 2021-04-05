@@ -9,4 +9,4 @@
 7. pridat kruzok v tom uzle kde sa prekrizuju ciary ugs uds - hotovo
 8. channel add opacity 0.7 - hotovo
 9. grafs - hotovo
-10. multimeter - v procese
+10. multimeter - hotovo
